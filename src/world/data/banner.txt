@@ -1,0 +1,7 @@
+
+{bright_green} _____    {bright_blue} _____ _____ ____
+{bright_green}|  _  |_ _{bright_blue}|     |  |  |    \
+{bright_green}|   __| | {bright_blue}| | | |  |  |  |  |
+{bright_green}|__|  |_  {bright_blue}|_|_|_|_____|____/
+{bright_green}      |___| {red}~VWSteve
+{normal}
