@@ -10,8 +10,8 @@ class Chat(BaseCommand):
 
     @staticmethod
     def handle(args, client, server):
-        message = f"[CHAT] {client.hero.name} - {args}"
-        server.send_all("{bright_blue}" + message + "{normal}")
+        message = " ".join(args)
+        server.send_all(f"{{bright_blue}}[CHAT] {client.hero.name} - {message}{{normal}}")
 
 
 class Say(BaseCommand):
@@ -28,20 +28,17 @@ class Whisper(BaseCommand):
 
     @staticmethod
     def handle(args, client, server):
-        tokens = args.split(" ")
-        if len(tokens) < 2:
+        if len(args) < 2:
             client.send("Who are you trying to whisper, and what are you saying?")
 
-        recipient = tokens[0]
-        text = " ".join(tokens[1:])
+        recipient = args[0]
+        text = " ".join(args[1:])
         if client.hero.name == recipient:
             client.send("Talking to yourself? Ok fine...")
 
-        message = f"[W] from {client.hero.name} - {text}"
-        result = server.send_hero(recipient, "{bright_magenta}" + message + "{normal}")
+        result = server.send_hero(recipient, f"{{bright_magenta}}[W] from {client.hero.name} - {text}{{normal}}")
         if not result:
             client.send("Nobody hears you")
             return
 
-        message = f"[W] to {recipient} - {text}"
-        client.send("{magenta}" + message + "{normal}")
+        client.send(f"{{magenta}}[W] to {recipient} - {text}{{normal}}")

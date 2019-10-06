@@ -17,10 +17,15 @@ ENABLED_COMMANDS = {
         info.Colors,
 
         user.Character,
+        user.Save,
         user.Who
     ],
     ClientState.LOGGING_IN: [
-        user.Login
+        user.Login,
+        user.Create
+    ],
+    ClientState.CREATING_HERO: [
+        user.Pray
     ]
 }
 
@@ -39,12 +44,22 @@ def handle_command(message, client, server):
         return
 
     command = tokens[0].lower()
-    args = " ".join(tokens[1:])
+
+    # Intercept custom commands here, stuff that's metadata on commands
+    if command == "help":
+        if len(tokens) == 1:
+            info.Help.handle([], client, server)
+            return
+
+        for c in ENABLED_COMMANDS[client.state]:
+            if tokens[1] in c.commands:
+                c.help(tokens[1:], client)
+                return
 
     # Iterate over the commands for the given state
     for c in ENABLED_COMMANDS[client.state]:
         if command in c.commands:
-            c.handle(args, client, server)
+            c.handle(tokens[1:], client, server)
             return
 
     client.send("Unknown command, see {yellow}commands{normal} for help")

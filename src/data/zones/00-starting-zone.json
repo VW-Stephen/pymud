@@ -1,0 +1,22 @@
+{
+  "name": "Starting Zone",
+  "id": 0,
+  "rooms": [
+    {
+      "id": 0,
+      "title": "Pantheon of Heroes",
+      "description": "",
+      "exits": [
+        {"direction":  "north", "room":  1}
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Altar of Attributes",
+      "description": "",
+      "exits": [
+        {"direction":  "north", "room": 2}
+      ]
+    }
+  ]
+}

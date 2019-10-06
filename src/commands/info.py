@@ -10,6 +10,15 @@ class Colors(BaseCommand):
 
     @staticmethod
     def handle(args, client, server):
-        result = "\n".join(["{" + key + "}" + key for key in COLOR_MAP.keys()])
-        result += "{normal}"
-        client.send(result)
+        client.send(", ".join([f"{{key}}{key}{{normal}}" for key in COLOR_MAP.keys()]))
+
+
+class Help(BaseCommand):
+    commands = ["help"]
+
+    @staticmethod
+    def handle(args, client, server):
+        client.send(
+            "Shows helpful information about commands. Use {yellow}help <command>{normal} to read a bunch of stuff like"
+            " a damn NERD"
+        )

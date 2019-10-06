@@ -1,3 +1,4 @@
+import socket
 from threading import Thread
 
 from colors import colorize
@@ -25,13 +26,21 @@ class ClientThread(Thread):
         """
         Main loop for the thread, handles messaging to/from the client
         """
+
         # Log in stuff
         self.send("{yellow}login <username> <password>{normal} for an existing hero")
         self.send("{yellow}create <username> <password>{normal} for a new hero")
 
         # Client game loop
         while True:
-            data = self.receive()
+            # Socket mode is set to non-blocking here, so we have to catch timeout errors and handle them if/when
+            try:
+                data = self.receive()
+            except socket.timeout:
+                self.send("You seem distant, what's wrong? (disconnected due to timeout)")
+                self.exit()
+                return
+
             if not data:
                 continue
 
@@ -47,7 +56,7 @@ class ClientThread(Thread):
         self.state = ClientState.PLAYING
 
     def exit(self):
-        self.send("K Bye")
+        self.hero.save()
         self.connection.close()
         exit(0)
 

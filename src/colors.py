@@ -17,6 +17,4 @@ def colorize(message):
     Returns the correctly colorized message based on the known color codes
     """
     result = message.format(**COLOR_MAP)
-    print(result)
     return result
-

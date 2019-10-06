@@ -29,6 +29,7 @@ class MUDServer(object):
     def serve(self):
         while True:
             connection, address = self.socket_server.accept()
+            connection.settimeout(const.SERVER_CONNECTION_TIMEOUT)
             log(f"Server - {address} connected")
 
             thread = ClientThread(connection, address, self)
