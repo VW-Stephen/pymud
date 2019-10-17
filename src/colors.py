@@ -16,5 +16,7 @@ def colorize(message):
     """
     Returns the correctly colorized message based on the known color codes
     """
+    if not message.endswith("{normal}"):
+        message = message + "{normal}"
     result = message.format(**COLOR_MAP)
     return result

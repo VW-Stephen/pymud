@@ -1,0 +1,29 @@
+[
+  {
+    "room_id": "1-00",
+    "title": "Snakington City Center",
+    "description": "The town center of the sprawling city of Snakington, the namesake of the one true Snake God. Shops line the streets to the east and west, while the world's second largest Snake Temple lays to the north. Directly to the south is the city gate, with doors that look so much like serpent scales, they might literally be made of snakes.",
+    "exits": {
+      "north": "1-01",
+      "south": "",
+      "east": "",
+      "west": ""
+    }
+  },
+  {
+    "room_id": "1-01",
+    "title": "Snakington Temple",
+    "description": "TBD",
+    "exits": {
+      "south": "1-00"
+    }
+  },
+  {
+    "room_id": "1-02",
+    "title": "TBD",
+    "description": "TBD",
+    "exits": {
+
+    }
+  }
+]

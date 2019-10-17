@@ -1,5 +1,6 @@
 from random import randint
 
+import const
 from commands import BaseCommand
 from hero.hero import Hero
 from hero.types import HeroType
@@ -52,7 +53,7 @@ class Login(BaseCommand):
     """
     Command for logging in to the game
     """
-    commands = ["login"]
+    commands = ["login", "connect"]
 
     @staticmethod
     def handle(args, client, server):
@@ -69,6 +70,9 @@ class Login(BaseCommand):
             client.login(hero)
             client.send(f"Welcome back, {{red}}{name}{{normal}}")
             client.state = ClientState.PLAYING
+
+            room = server.world.get_room(hero)
+            client.send(room.look())
             return
 
         # Bad password dummy

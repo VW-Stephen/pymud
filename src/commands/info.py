@@ -20,5 +20,30 @@ class Help(BaseCommand):
     def handle(args, client, server):
         client.send(
             "Shows helpful information about commands. Use {yellow}help <command>{normal} to read a bunch of stuff like"
-            " a damn NERD"
+            " a damn NERD, because that's just what you are. Give me your lunch money, NERD!"
         )
+
+
+class Look(BaseCommand):
+    commands = ["look", "l"]
+
+    @staticmethod
+    def handle(args, client, server):
+        if len(args) == 0:
+            Look._look_room(client, server)
+
+    @staticmethod
+    def _look_room(client, server):
+        # Include the room messages
+        room = server.world.get_room(client.hero)
+        message = f"{room.look()}"
+
+        # Show any other users in the room
+        occupants = server.world.get_room_heroes(room.room_id)
+        occupants.remove(client.hero.name)
+
+        if occupants:
+            message += "\n"
+            for occupant in occupants:
+                message += f"{{bright_blue}}{occupant}{{normal}}\n"
+        client.send(message)

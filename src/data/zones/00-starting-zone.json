@@ -1,22 +1,20 @@
-{
-  "name": "Starting Zone",
-  "id": 0,
-  "rooms": [
-    {
-      "id": 0,
-      "title": "Pantheon of Heroes",
-      "description": "",
-      "exits": [
-        {"direction":  "north", "room":  1}
-      ]
+[
+  {
+    "room_id": "0-00",
+    "title": "Pantheon of Heroes",
+    "description": "",
+    "exits": {
+      "north": "0-01"
     },
-    {
-      "id": 1,
-      "title": "Altar of Attributes",
-      "description": "",
-      "exits": [
-        {"direction":  "north", "room": 2}
-      ]
-    }
-  ]
-}
+    "flags": ["NO_RECALL"]
+  },
+  {
+    "room_id": "0-01",
+    "title": "Altar of Attributes",
+    "description": "",
+    "exits": {
+      "north": "0-02"
+    },
+    "flags": ["NO_RECALL"]
+  }
+]

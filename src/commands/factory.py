@@ -2,7 +2,7 @@
 Factory methods for handling commands from users.
 """
 
-from commands import chat, info, user
+from commands import chat, info, movement, user
 from states import ClientState
 
 """
@@ -15,6 +15,15 @@ ENABLED_COMMANDS = {
         chat.Whisper,
 
         info.Colors,
+        info.Look,
+
+        movement.Down,
+        movement.East,
+        movement.North,
+        movement.Recall,
+        movement.South,
+        movement.Up,
+        movement.West,
 
         user.Character,
         user.Save,

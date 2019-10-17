@@ -16,6 +16,8 @@ class Hero:
 
     hero_class: HeroType = None
     level: int = 1
+    experience: int = 0
+    gold: int = 0
 
     strength: int = 0
     dexterity: int = 0

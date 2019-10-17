@@ -14,13 +14,15 @@ class ClientThread(Thread):
     def __init__(self, connection, address, server):
         super(ClientThread, self).__init__()
 
+        # Network
         self.connection = connection
         self.address = address
         self.server = server
-        self.hero = None
-        self.state = ClientState.LOGGING_IN
 
-        self.send(server.world.banner)
+        # Game
+        self.hero = None
+        self.location = None
+        self.state = ClientState.LOGGING_IN
 
     def run(self):
         """
@@ -28,7 +30,8 @@ class ClientThread(Thread):
         """
 
         # Log in stuff
-        self.send("{yellow}login <username> <password>{normal} for an existing hero")
+        self.send(self.server.world.banner)
+        self.send("{yellow}connect <username> <password>{normal} for an existing hero")
         self.send("{yellow}create <username> <password>{normal} for a new hero")
 
         # Client game loop
@@ -37,7 +40,7 @@ class ClientThread(Thread):
             try:
                 data = self.receive()
             except socket.timeout:
-                self.send("You seem distant, what's wrong? (disconnected due to timeout)")
+                self.send("You seem distant, is there another woman? WHO IS THE BITCH?? (disconnected due to timeout)")
                 self.exit()
                 return
 
@@ -56,7 +59,8 @@ class ClientThread(Thread):
         self.state = ClientState.PLAYING
 
     def exit(self):
-        self.hero.save()
+        if self.hero:
+            self.hero.save()
         self.connection.close()
         exit(0)
 

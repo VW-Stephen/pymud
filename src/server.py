@@ -2,6 +2,8 @@
 Contains everything needed to bring up a MUD server and handle client threads
 """
 import socket
+from threading import Thread
+from time import sleep
 
 import const
 from client import ClientThread
@@ -27,14 +29,28 @@ class MUDServer(object):
         log("Server's listening!")
 
     def serve(self):
+        worker_thread = Thread(target=self.tick)
+        worker_thread.daemon = True
+        worker_thread.start()
+
         while True:
             connection, address = self.socket_server.accept()
             connection.settimeout(const.SERVER_CONNECTION_TIMEOUT)
             log(f"Server - {address} connected")
 
             thread = ClientThread(connection, address, self)
+            thread.daemon = True
             self.client_pool.append(thread)
             thread.start()
+
+    def tick(self):
+        """
+        Server tick functions, handles changes in the world and to the clients
+        """
+        while True:
+            # TODO: World tick stuff
+            self.world.tick()
+            sleep(const.SERVER_TICK_RATE)
 
     def send_all(self, message):
         for c in self.client_pool:
