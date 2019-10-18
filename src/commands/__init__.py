@@ -1,3 +1,11 @@
+# HACK: This is to get autocomplete while working w/ commands, when running these imports aren't included (since it
+# would be a cyclical import) so we're good. REAL annoying python 3 thing
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from client import ClientThread
+    from server import MUDServer
+
+
 class BaseCommand(object):
     """
     Base command object that all other commands must inherit
@@ -6,7 +14,7 @@ class BaseCommand(object):
     help_text: str
 
     @staticmethod
-    def handle(args, client, server):
+    def handle(args: list, client: 'ClientThread', server: 'MUDServer'):
         """
         Method that's called to handle the command when it matches the message from the client. Must implement in each
         child object
@@ -14,7 +22,7 @@ class BaseCommand(object):
         raise NotImplementedError(f"Command not implemented, DUMMY")
 
     @staticmethod
-    def help(args, client):
+    def help(args: list, client):
         """
         Method that's called when help is requested for the command. Implement if desired
         """

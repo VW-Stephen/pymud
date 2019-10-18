@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  pymud:
+    image: .
+  network:
+    1337:1337
+  volumes:
+    /data:/data

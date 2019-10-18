@@ -2,7 +2,7 @@
 Factory methods for handling commands from users.
 """
 
-from commands import chat, info, movement, user
+from commands import chat, info, movement, silly, user
 from states import ClientState
 
 """
@@ -25,6 +25,10 @@ ENABLED_COMMANDS = {
         movement.Up,
         movement.West,
 
+        silly.Fart,
+        silly.Laugh,
+        silly.Poke,
+
         user.Character,
         user.Save,
         user.Who
@@ -34,6 +38,8 @@ ENABLED_COMMANDS = {
         user.Create
     ],
     ClientState.CREATING_HERO: [
+        info.Look,
+
         user.Pray
     ]
 }
@@ -68,7 +74,8 @@ def handle_command(message, client, server):
     # Iterate over the commands for the given state
     for c in ENABLED_COMMANDS[client.state]:
         if command in c.commands:
-            c.handle(tokens[1:], client, server)
+            args = tokens[1:] if len(tokens) > 1 else []
+            c.handle(args, client, server)
             return
 
     client.send("Unknown command, see {yellow}commands{normal} for help")

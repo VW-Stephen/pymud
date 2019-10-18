@@ -29,7 +29,7 @@ class Hero:
     flags: list = field(default_factory=list)
 
     @staticmethod
-    def exists(name):
+    def exists(name: str):
         return os.path.isfile(os.path.join(const.DATA_HEROES_LOCATION, name))
 
     def save(self):
@@ -38,7 +38,7 @@ class Hero:
             outfile.write(json.dumps(asdict(self)))
 
     @staticmethod
-    def load(name):
+    def load(name: str):
         file_path = os.path.join(const.DATA_HEROES_LOCATION, name)
         with open(file_path, "r") as infile:
             data = json.loads(infile.read())

@@ -1,5 +1,8 @@
+from lib.log import log
+
 COLOR_MAP = {
     "blue": "\u001b[34m",
+    "bright_black": "\u001b[30;1m",
     "bright_blue": "\u001b[34;1m",
     "bright_green": "\u001b[32;1m",
     "bright_magenta": "\u001b[35;1m",
@@ -12,11 +15,14 @@ COLOR_MAP = {
 }
 
 
-def colorize(message):
+def colorize(message: str):
     """
     Returns the correctly colorized message based on the known color codes
     """
     if not message.endswith("{normal}"):
         message = message + "{normal}"
-    result = message.format(**COLOR_MAP)
-    return result
+    try:
+        return message.format(**COLOR_MAP)
+    except Exception as e:
+        log(e)
+        return message

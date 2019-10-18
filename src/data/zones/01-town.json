@@ -16,7 +16,17 @@
     "description": "TBD",
     "exits": {
       "south": "1-00"
-    }
+    },
+    "mobs": [
+      {
+        "name": "High Priest Cobra",
+        "flags": ["NO_ATTACK"],
+        "commands": {
+          "look": "This dude's real buff, but he's wearing a dress (he'd call them \"robes\") made to look like scales... that's weird. But he's the conduit to Snakington so maybe don't mess with him.",
+          "poke": "No step on snek!"
+        }
+      }
+    ]
   },
   {
     "room_id": "1-02",

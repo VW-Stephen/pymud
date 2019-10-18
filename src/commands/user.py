@@ -48,6 +48,9 @@ class Create(BaseCommand):
         client.send(f"{{red}}NOOB ALERT, NOOB ALERT{{normal}} {name} has entered the building")
         client.state = ClientState.CREATING_HERO
 
+        server.world.move_hero(client.hero, const.LOCATION_TUTORIAL)
+        client.run_command("look")
+
 
 class Login(BaseCommand):
     """
@@ -117,7 +120,7 @@ class Pray(BaseCommand):
                 return
 
         # Didn't match any of that stuff? Fail I guess
-        client.send("Not sure what you want, maybe try {yellow}help pray{normal}?")
+        client.send("Not sure what you want to {yellow}pray{normal} for, so let's start with classes")
 
     @staticmethod
     def _handle_class(args, client, server):
@@ -127,10 +130,12 @@ class Pray(BaseCommand):
         Usage:
             pray class <classname>
         """
-        class_options = ", ".join([f"{{yellow}}{t.name}{{normal}}" for t in HeroType])
+        class_options = ", ".join([f"{{bright_blue}}{t.name}{{normal}}" for t in HeroType])
 
         if not args:
-            client.send(f"Which class are you praying for again? Maybe something like... {class_options}")
+            client.send(f"""Which class are you praying for again? {{yellow}}pray class <name>{{normal}}
+Available classes: {class_options}""")
+
             return
 
         hero_class = args[0].lower()
@@ -168,7 +173,8 @@ Or {{yellow}}pray attributes{{normal}} to continue""")
   {{red}}CON{{normal}}: {client.hero.constitution}
   {{red}}CHA{{normal}}: {client.hero.charisma}
   
-If you're happy with those stats maybe it's time to {{yellow}}pray gear{{normal}} so you're not naked?""")
+If you're happy with those stats maybe it's time to {{yellow}}pray gear{{normal}} so you're not naked?
+Or you can {{yellow}}pray attributes{{normal}} again to make the numbers better""")
 
     @staticmethod
     def _handle_gear(args, client, server):
@@ -177,6 +183,7 @@ If you're happy with those stats maybe it's time to {{yellow}}pray gear{{normal}
         """
         # TODO
         client.send("Yeah I'll do this later, maybe")
+        client.send("To enter the world {yellow}pray ascend{normal}")
 
     @staticmethod
     def _handle_ascension(args, client, server):
@@ -186,6 +193,8 @@ If you're happy with those stats maybe it's time to {{yellow}}pray gear{{normal}
         client.hero.save()
         client.send("Time to party BRO. Also time to change this message")  # TODO: Reword
         client.state = ClientState.PLAYING
+        server.world.move_hero(client.hero, const.LOCATION_RECALL)
+        client.run_command("look")
 
 
 class Save(BaseCommand):

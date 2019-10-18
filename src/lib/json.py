@@ -3,6 +3,7 @@ from enum import Enum
 
 
 class EnumEncoder(json.Encoder):
-    def default(self, obj):
+    @staticmethod
+    def default(obj: object):
         if isinstance(obj, Enum):
             return str(obj)

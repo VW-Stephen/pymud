@@ -40,7 +40,7 @@ class MoveMixin(object):
         server.world.move_hero(client.hero, room.exits[direction])
         room = server.world.get_room(client.hero)
         if room:
-            client.send(room.look())
+            client.run_command("look")
 
 
 class North(BaseCommand):

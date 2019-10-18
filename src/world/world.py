@@ -2,15 +2,16 @@ import json
 import os
 
 import const
-from log import log
+from hero.hero import Hero
+from lib.log import log
 from world.models import Room
 
 
-class World(object):
+class World:
     """
     Singleton for the game world
     """
-    class SingleWorld(object):
+    class SingleWorld:
         """
         Actual world object to which we defer all calls World calls
         """
@@ -27,7 +28,7 @@ class World(object):
             log(f"Loaded {len(self.rooms)} rooms")
 
         @staticmethod
-        def _read_data(file_location, parse=True):
+        def _read_data(file_location: str, parse: bool = True):
             """
             Reads the given data file, returns the data
             """
@@ -49,12 +50,12 @@ class World(object):
                 data = list(self._read_data(full_path))
                 self.rooms.update({room["room_id"]: Room(**room) for room in data})
 
-        def move_hero(self, hero, room_id):
+        def move_hero(self, hero: Hero, room_id: Room):
             # TODO: Handle invalid rooms I guess?
             if room_id in self.rooms:
                 self.hero_locations[hero.name] = room_id
 
-        def get_room(self, hero):
+        def get_room(self, hero: Hero):
             room_id = self.hero_locations.get(hero.name, None)
 
             # If they haven't been assigned a location yet we recall them
@@ -63,7 +64,14 @@ class World(object):
                 self.move_hero(hero, room_id)
             return self.rooms.get(room_id, None)
 
-        def get_room_heroes(self, room_id):
+        def get_other_heroes_in_room(self, hero: Hero):
+            room = self.get_room(hero)
+            others = self.get_room_heroes(room.room_id)
+            if hero.name in others:
+                others.remove(hero.name)
+            return others
+
+        def get_room_heroes(self, room_id: str):
             return [key for key, value in self.hero_locations.items() if value == room_id]
 
         def tick(self):

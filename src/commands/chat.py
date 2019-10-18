@@ -19,8 +19,19 @@ class Say(BaseCommand):
 
     @staticmethod
     def handle(args, client, server):
-        # TODO
-        client.send("SAY")
+        if len(args) == 0:
+            client.send("Say what?")
+            return
+
+        recipients = server.world.get_other_heroes_in_room(client.hero)
+        if len(recipients) == 0:
+            client.send("Nobody hears you")
+            return
+
+        message = f"{client.hero.name} says: {' '.join(args)}"
+        for r in recipients:
+            server.send_hero(r, message)
+        client.send(f"{{bright_black}}You say: {' '.join(args)}{{normal}}")
 
 
 class Whisper(BaseCommand):
@@ -30,6 +41,7 @@ class Whisper(BaseCommand):
     def handle(args, client, server):
         if len(args) < 2:
             client.send("Who are you trying to whisper, and what are you saying?")
+            return
 
         recipient = args[0]
         text = " ".join(args[1:])
@@ -42,3 +54,13 @@ class Whisper(BaseCommand):
             return
 
         client.send(f"{{magenta}}[W] to {recipient} - {text}{{normal}}")
+
+
+class Emote(BaseCommand):
+    commands = ["emote"]
+
+    @staticmethod
+    def handle(args, client, server):
+        if len(args) == 0:
+            client.send("Emote what, exactly?")
+            return

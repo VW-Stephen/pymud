@@ -7,18 +7,18 @@ from time import sleep
 
 import const
 from client import ClientThread
-from log import log
+from lib.log import log
 from world.world import World
 
 
 class MUDServer(object):
-    client_pool = []
+    client_pool: list = []
     socket_server = None
-    world = None
+    world: World.SingleWorld = None
 
     def __init__(self):
         log("Building world...")
-        self.world = World()
+        self.world = World()  # This warning is bunk, we want the autocomplete
 
         log("Initializing server...")
         self.socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

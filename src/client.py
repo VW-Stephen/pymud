@@ -1,9 +1,10 @@
 import socket
 from threading import Thread
 
-from colors import colorize
+from hero.hero import Hero
+from lib.colors import colorize
 from commands.factory import handle_command
-from log import log
+from lib.log import log
 from states import ClientState
 
 
@@ -28,7 +29,6 @@ class ClientThread(Thread):
         """
         Main loop for the thread, handles messaging to/from the client
         """
-
         # Log in stuff
         self.send(self.server.world.banner)
         self.send("{yellow}connect <username> <password>{normal} for an existing hero")
@@ -52,9 +52,18 @@ class ClientThread(Thread):
                 self.exit()
                 return
 
-            handle_command(data, self, self.server)
+            self.run_command(data)
 
-    def login(self, hero):
+    def run_command(self, command: str):
+        """
+        Forces a client to run a command, useful for nesting commands
+        """
+        try:
+            handle_command(command, self, self.server)
+        except Exception as e:
+            log(f"SOME BAD SHIT WENT DOWN IN COMMAND LAND\n{e}")
+
+    def login(self, hero: Hero):
         self.hero = hero
         self.state = ClientState.PLAYING
 
@@ -70,7 +79,7 @@ class ClientThread(Thread):
         except BrokenPipeError:
             return None
 
-    def send(self, message):
+    def send(self, message: str):
         try:
             message = colorize(str(message)) + "\n"
             self.connection.send(bytes(message, "ascii"))

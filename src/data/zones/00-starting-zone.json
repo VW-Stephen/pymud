@@ -2,19 +2,8 @@
   {
     "room_id": "0-00",
     "title": "Pantheon of Heroes",
-    "description": "",
-    "exits": {
-      "north": "0-01"
-    },
-    "flags": ["NO_RECALL"]
-  },
-  {
-    "room_id": "0-01",
-    "title": "Altar of Attributes",
-    "description": "",
-    "exits": {
-      "north": "0-02"
-    },
+    "description": "Before you is a statue of the god Snakington. He's a snake, you see. There's no way out, so maybe you should {yellow}pray{normal}.",
+    "exits": {},
     "flags": ["NO_RECALL"]
   }
 ]

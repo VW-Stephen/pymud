@@ -18,4 +18,3 @@ DATA_ZONES_LOCATION = os.path.join(DATA_LOCATION, "zones")
 # Game Settings
 LOCATION_RECALL = "1-00"
 LOCATION_TUTORIAL = "0-00"
-
